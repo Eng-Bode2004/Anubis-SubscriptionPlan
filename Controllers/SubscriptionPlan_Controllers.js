@@ -4,7 +4,7 @@ class SubscriptionPlan_Controller {
     async createPlan(req, res) {
         try {
             const planData = req.body;
-            if (!planData.name || !planData.price || !planData.duration_days || !planData.Admin_Profile) {
+            if (!planData.name || !planData.price || !planData.duration_days) {
                 return res.status(400).json({
                     success: false,
                     message: 'Missing required fields: name, price, duration_days, or Admin_Profile'
