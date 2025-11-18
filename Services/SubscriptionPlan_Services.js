@@ -43,6 +43,44 @@ class SubscriptionPlan_Service {
             throw new Error(error.message || 'Error deleting subscription plan');
         }
     }
+
+    async updatePlanDiscount(planId, discount_percent) {
+        try {
+            const plan = await SubscriptionPlan.findById(planId);
+            if (!plan) throw new Error("Subscription plan not found");
+
+            plan.discount_percent = discount_percent;
+
+            const discountedPrice =
+                plan.price - (plan.price * discount_percent / 100);
+
+            plan.price = Number(discountedPrice.toFixed(2));
+
+            await plan.save();
+
+            return plan;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async updateSubscriptionPlan(planId, updates) {
+        try {
+            const updatedPlan = await SubscriptionPlan.findByIdAndUpdate(
+                planId,
+                updates,
+                { new: true, runValidators: true }
+            );
+
+            if (!updatedPlan)
+                throw new Error("Subscription plan not found");
+
+            return updatedPlan;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
 }
 
 module.exports = new SubscriptionPlan_Service();

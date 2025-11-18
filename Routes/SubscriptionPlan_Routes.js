@@ -13,4 +13,8 @@ router.get('/:id', SubscriptionPlan_Controller.getPlanById);
 
 router.delete('/:id',SubscriptionPlan_Controller.deletePlanById)
 
+router.put('/:id/discount', SubscriptionPlan_Controller.updateDiscount);
+
+router.put('/:id', SubscriptionPlan_Controller.updatePlan);
+
 module.exports = router;

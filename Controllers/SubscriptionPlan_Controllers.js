@@ -68,6 +68,49 @@ class SubscriptionPlan_Controller {
             });
         }
     }
+
+    async updateDiscount(req, res) {
+        try {
+            const { id } = req.params;
+            const { discount_percent } = req.body;
+
+            if (discount_percent == null)
+                return res.status(400).json({ success: false, message: "discount_percent is required" });
+
+            if (discount_percent < 0 || discount_percent > 100)
+                return res.status(400).json({ success: false, message: "discount_percent must be between 0 and 100" });
+
+            const plan = await SubscriptionPlan_Service.updatePlanDiscount(id, discount_percent);
+
+            res.status(200).json({
+                success: true,
+                message: "Discount updated successfully",
+                data: plan
+            });
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message });
+        }
+    }
+
+    async updatePlan(req, res) {
+        try {
+            const { id } = req.params;
+            const updates = req.body;
+
+            const plan = await SubscriptionPlan_Service.updateSubscriptionPlan(id, updates);
+
+            res.status(200).json({
+                success: true,
+                message: "Subscription plan updated successfully",
+                data: plan
+            });
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message });
+        }
+    }
+
 }
 
 module.exports = new SubscriptionPlan_Controller();
