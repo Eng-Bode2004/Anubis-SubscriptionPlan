@@ -28,6 +28,21 @@ class SubscriptionPlan_Service {
             throw new Error(error.message || 'Error fetching subscription plan');
         }
     }
+
+    async deletePlanById(planId) {
+        try {
+            const deletedPlan = await SubscriptionPlan.findByIdAndDelete(planId);
+
+            if (!deletedPlan) {
+                throw new Error('Subscription plan not found');
+            }
+
+            return deletedPlan;
+
+        } catch (error) {
+            throw new Error(error.message || 'Error deleting subscription plan');
+        }
+    }
 }
 
 module.exports = new SubscriptionPlan_Service();

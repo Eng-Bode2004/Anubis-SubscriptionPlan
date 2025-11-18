@@ -48,6 +48,26 @@ class SubscriptionPlan_Controller {
             res.status(500).json({ success: false, message: error.message });
         }
     }
+
+    async deletePlanById(req, res) {
+        try {
+            const planId = req.params['id'];
+            const deletedPlan = await SubscriptionPlan_Service.deletePlanById(planId);
+            return res.status(200).json({
+                success: true,
+                message: "Subscription plan deleted successfully",
+                data: deletedPlan
+            });
+
+        }
+        catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+
+            });
+        }
+    }
 }
 
 module.exports = new SubscriptionPlan_Controller();
